@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DENTAL OS — Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --night:#07100a;
+  --deep:#0d1a10;
+  --card:#111f14;
+  --cardB:#162019;
+  --border:rgba(107,143,113,.18);
+  --borderH:rgba(107,143,113,.45);
+  --green:#6B8F71;
+  --greenL:#8FAF95;
+  --greenD:#4A6B50;
+  --greenA:rgba(107,143,113,.1);
+  --greenB:rgba(107,143,113,.05);
+  --copper:#c97941;
+  --copperA:rgba(201,121,65,.12);
+  --white:#eef5ef;
+  --mist:#8fa894;
+  --fog:#4a5e4e;
+  --cream:#f2ede8;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--night);
+  color:var(--white);
+  font-family:'Outfit',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── BACKGROUND ── */
+.bg-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(107,143,113,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(74,107,80,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 50% 50%, rgba(201,121,65,.03) 0%, transparent 70%);
+}
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(107,143,113,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107,143,113,.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 100%);
+}
+
+/* ── LAYOUT ── */
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 2rem}
+
+/* ── HEADER ── */
+header{
+  position:fixed;top:0;width:100%;z-index:100;
+  padding:1.4rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(7,16,10,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo-wrap{display:flex;align-items:center;gap:.7rem}
+.logo-mark{
+  width:32px;height:32px;
+  border:1px solid var(--green);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;letter-spacing:.08em;color:var(--white);
+  display:flex;align-items:baseline;gap:.4rem;
+}
+.logo-nexo{
+  font-family:'Outfit',sans-serif;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--copper);font-weight:400;
+}
+.header-tag{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fog);border:1px solid var(--border);
+  padding:.28rem .75rem;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;
+  padding:8rem 2rem 5rem;
+  position:relative;
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--green);margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.eyebrow-line{width:24px;height:1px;background:var(--green)}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:300;line-height:1;
+  letter-spacing:-.01em;
+  margin-bottom:1rem;
+  opacity:0;animation:fadeUp .9s .35s forwards;
+}
+.hero-title em{font-style:italic;color:var(--green)}
+.hero-title .dim{opacity:.28}
+
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,2vw,1.3rem);
+  font-style:italic;
+  color:var(--mist);
+  max-width:42ch;
+  line-height:1.7;
+  margin:0 auto 1.5rem;
+  opacity:0;animation:fadeUp .9s .5s forwards;
+}
+
+.hero-doctor{
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fog);margin-bottom:4rem;
+  opacity:0;animation:fadeUp .9s .65s forwards;
+}
+.hero-doctor strong{color:var(--mist);font-weight:400}
+
+/* ── DIVISOR ── */
+.div-line{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);
+  margin:0;
+}
+
+/* ── CARDS SECTION ── */
+.cards-section{
+  padding:5rem 0 7rem;
+}
+
+.section-label{
+  text-align:center;margin-bottom:3.5rem;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s,transform .6s;
+}
+.section-label.v{opacity:1;transform:none}
+.section-label p{
+  font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--green);margin-bottom:.5rem;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.section-label p::before,.section-label p::after{
+  content:'';width:20px;height:1px;background:var(--green);opacity:.5;
+}
+.section-label h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3vw,2.4rem);
+  font-weight:300;color:var(--white);
+}
+.section-label h2 em{font-style:italic;color:var(--green)}
+
+/* ── CARDS ── */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:2.8rem 2.5rem;
+  position:relative;overflow:hidden;
+  cursor:default;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .65s,transform .65s,border-color .3s,background .3s;
+}
+.card.v{opacity:1;transform:none}
+.card:hover{border-color:var(--borderH);background:var(--cardB)}
+
+.card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover::before{opacity:1}
+
+.card-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:300;line-height:1;
+  color:rgba(107,143,113,.08);
+  position:absolute;top:1.5rem;right:2rem;
+  pointer-events:none;
+}
+
+.card-icon{
+  width:44px;height:44px;
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.8rem;
+  background:var(--greenA);
+}
+.card-icon svg{width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.5}
+
+.card-tag{
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--copper);background:var(--copperA);
+  border:1px solid rgba(201,121,65,.2);
+  padding:.2rem .6rem;display:inline-block;margin-bottom:1.2rem;
+}
+
+.card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:400;
+  line-height:1.1;margin-bottom:.6rem;color:var(--white);
+}
+.card-title em{font-style:italic;color:var(--green)}
+
+.card-desc{
+  font-size:.82rem;color:var(--mist);
+  line-height:1.75;margin-bottom:2rem;
+}
+
+.card-features{
+  list-style:none;display:flex;flex-direction:column;
+  gap:.55rem;margin-bottom:2.5rem;
+}
+.card-features li{
+  display:flex;align-items:flex-start;gap:.6rem;
+  font-size:.76rem;color:var(--fog);line-height:1.5;
+}
+.feat-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--green);flex-shrink:0;margin-top:.5em;
+}
+
+.card-btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:none;border:1px solid var(--green);
+  color:var(--green);padding:.8rem 1.8rem;
+  font-family:'Outfit',sans-serif;font-size:.72rem;
+  font-weight:400;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;
+  transition:background .25s,color .25s,gap .25s;
+  width:100%;justify-content:center;
+}
+.card-btn:hover{background:var(--green);color:var(--night);gap:1rem}
+.card-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;transition:transform .25s}
+.card-btn:hover svg{transform:translateX(3px)}
+
+/* ── INFO STRIP ── */
+.info-strip{
+  padding:3rem 0 5rem;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .7s,transform .7s;
+}
+.info-strip.v{opacity:1;transform:none}
+
+.strip-inner{
+  border:1px solid var(--border);
+  padding:2.5rem 3rem;
+  background:var(--greenB);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2rem;
+}
+.strip-item{text-align:center}
+.strip-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;line-height:1;
+  color:var(--green);margin-bottom:.3rem;
+}
+.strip-n em{font-style:normal;font-size:1.5rem}
+.strip-l{
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fog);
+}
+.strip-sep{width:1px;background:var(--border);margin:0 auto}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  position:relative;z-index:1;
+}
+.foot-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:.95rem;letter-spacing:.08em;color:var(--mist);
+}
+.foot-copy{font-size:.62rem;color:var(--fog)}
+.foot-nexo{
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--copper);
+}
+
+/* ── ANIMACIONES ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px){
+  header{padding:1.2rem 1.5rem}
+  .header-tag{display:none}
+  .cards{grid-template-columns:1fr}
+  .strip-inner{grid-template-columns:1fr;gap:1.5rem}
+  .strip-sep{display:none}
+  footer{padding:1.5rem;flex-direction:column;gap:.8rem;text-align:center}
+  .card{padding:2.2rem 1.8rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-wrap">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3C8.5 3 5 5.5 5 9C5 11.5 6.5 13.5 8 15.5C9.5 17.5 10.5 19.5 11 22C11.5 24 12.5 24 13 22C13.5 19.5 14.5 17.5 16 15.5C17.5 13.5 19 11.5 19 9C19 5.5 15.5 3 12 3Z" stroke="#6B8F71" stroke-width="1.2" fill="none"/>
+        <path d="M9 9C9 7 10.5 6 12 6C13.5 6 15 7 15 9" stroke="#6B8F71" stroke-width="1.2" fill="none"/>
+        <line x1="12" y1="6" x2="12" y2="14" stroke="#6B8F71" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      DENTAL OS
+      <span class="logo-nexo">por LUMEN NEXO</span>
+    </div>
+  </div>
+  <div class="header-tag">Portal del Doctor</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-line"></span>
+    Sistema de gestión · Dental San Cris
+    <span class="eyebrow-line"></span>
+  </div>
+
+  <h1 class="hero-title">
+    Bienvenida,<br>
+    <em>Dra. Adriana</em><br>
+    <span class="dim">Ruiz Sancho</span>
+  </h1>
+
+  <p class="hero-sub">
+    Todo lo que necesitas para gestionar tu consultorio está aquí. Dos accesos. Todo automático.
+  </p>
+
+  <p class="hero-doctor">
+    <strong>Dental San Cris</strong> · Odontología Integral · Ced. Prof. 13482781
+  </p>
+</section>
+
+<div class="div-line"></div>
+
+<!-- CARDS -->
+<section class="cards-section">
+  <div class="wrap">
+
+    <div class="section-label">
+      <p>Tus herramientas</p>
+      <h2>Elige <em>lo que necesitas</em> hoy.</h2>
+    </div>
+
+    <div class="cards">
+
+      <!-- CARD 1 — Registro de consulta -->
+      <div class="card" style="transition-delay:.05s">
+        <div class="card-number">01</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg>
+        </div>
+        <span class="card-tag">Al terminar cada consulta</span>
+        <h3 class="card-title">Registro de<br><em>Consulta</em></h3>
+        <p class="card-desc">Llena este formulario al terminar cada consulta. El sistema se encarga de todo lo demás automáticamente.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>Registra o actualiza el expediente del paciente</li>
+          <li><span class="feat-dot"></span>Envía confirmación por email al paciente</li>
+          <li><span class="feat-dot"></span>Crea la cita en tu Google Calendar</li>
+          <li><span class="feat-dot"></span>Programa recordatorios automáticos</li>
+        </ul>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeOC0X0ByXobvCm9bTmPGhIQtQuw5HNd8kV6VOzHAOOsfpq-A/viewform" target="_blank" class="card-btn">
+          Registrar consulta
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- CARD 2 — Campaña -->
+      <div class="card" style="transition-delay:.15s">
+        <div class="card-number">02</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 8s-4 4-10 4S2 8 2 8M2 16s4-4 10-4 10 4 10 4M12 4v1M12 19v1"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <span class="card-tag">Cuando quieras</span>
+        <h3 class="card-title">Campaña y<br><em>Descuentos</em></h3>
+        <p class="card-desc">Envía promociones o mensajes a tus pacientes. Elige a quién llega, personaliza el mensaje e incluye un descuento.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>Llega a todos o a un grupo específico</li>
+          <li><span class="feat-dot"></span>Se personaliza con el nombre de cada paciente</li>
+          <li><span class="feat-dot"></span>Incluye descuento si lo deseas</li>
+          <li><span class="feat-dot"></span>Recibes confirmación de cuántos recibieron el mensaje</li>
+        </ul>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQX-co4oMiyVEsNqCPQFJjVWXlrm4bbp0t8LvtFU0rukYgVQ/viewform" target="_blank" class="card-btn">
+          Enviar campaña
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- INFO STRIP -->
+    <div class="info-strip" style="transition-delay:.1s">
+      <div class="strip-inner">
+        <div class="strip-item">
+          <div class="strip-n">2<em>min</em></div>
+          <div class="strip-l">Por consulta registrada</div>
+        </div>
+        <div class="strip-sep"></div>
+        <div class="strip-item">
+          <div class="strip-n">7<em>+</em></div>
+          <div class="strip-l">Procesos automáticos</div>
+        </div>
+        <div class="strip-sep"></div>
+        <div class="strip-item">
+          <div class="strip-n">∞</div>
+          <div class="strip-l">Pacientes en historial</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">DENTAL OS</div>
+  <div class="foot-nexo">LUMEN NEXO</div>
+  <div class="foot-copy">© 2026 LUMEN · Todos los derechos reservados</div>
+</footer>
+
+<script>
+// Intersection Observer para animaciones
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(el){
+    if(el.isIntersecting){
+      el.target.classList.add('v');
+      io.unobserve(el.target);
+    }
+  });
+},{threshold:.1});
+
+document.querySelectorAll('.card,.section-label,.info-strip').forEach(function(el){
+  io.observe(el);
+});
+</script>
+</body>
+</html>
